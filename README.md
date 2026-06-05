@@ -4,6 +4,14 @@
 
 本仓库只保存计算后的颜色数据，不保存原始立绘。配色方式参考 Genshinpalette 的固定颜色表思路：头像近景优先用于角色本体取色，函数读取固化后的 `palettes.csv`，再生成核心色、单向连续色、双向连续色和分类型色板。
 
+## 在线教程
+
+启用 GitHub Pages 后，可直接访问：
+
+[https://misaka-15134.github.io/arkplatte/](https://misaka-15134.github.io/arkplatte/)
+
+如果链接暂时打不开，请在 GitHub 仓库页面进入 `Settings` -> `Pages`，把 `Source` 设为 `Deploy from a branch`，`Branch` 选择 `main`，目录选择 `/docs`，保存后等待 1 到 3 分钟。
+
 ## 安装
 
 Python：
@@ -78,7 +86,7 @@ arkplatte_cat(8, seed = 1)
 | ![逻各斯](docs/figures/operator_palettes/07-logos.png) | ![史尔特尔](docs/figures/operator_palettes/08-surtr.png) | ![玛恩纳](docs/figures/operator_palettes/09-mlynar.png) |
 | ![凯尔希](docs/figures/operator_palettes/10-kalts.png) | ![水月](docs/figures/operator_palettes/11-mizuki.png) | ![空弦](docs/figures/operator_palettes/12-archet.png) |
 
-完整网页教程见 [docs/index.html](docs/index.html)。
+完整网页教程源码见 [docs/index.html](docs/index.html)。
 
 ## 函数及使用方法
 
