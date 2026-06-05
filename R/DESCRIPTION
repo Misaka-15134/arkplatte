@@ -1,0 +1,13 @@
+Package: arknightsPalette
+Title: Arknights Character Palettes for Scientific Figures
+Version: 0.2.0
+Authors@R: person("arknightsPalette contributors", role = c("aut", "cre"), email = "none@example.com")
+Description: Character-inspired color palettes for Arknights operators, designed for continuous, diverging, and categorical scientific figures.
+License: MIT + file LICENSE
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.0
+Depends: R (>= 4.0)
+Imports: grDevices, stats
+Suggests: ggplot2, testthat (>= 3.0.0)
+Config/testthat/edition: 3

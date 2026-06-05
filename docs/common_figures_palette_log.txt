@@ -1,0 +1,10 @@
+common_bar: ['#3993AC', '#76A9BB', '#D39092', '#CC6C71', '#8F3343']
+common_line: ['#CAC4CA', '#79747F', '#2F2E37']
+common_scatter: {'endothelial': '#5E8F7A', 'immune': '#4D4853', 'stromal': '#274C63'}
+common_heatmap: ['#A3444F', '#AB6367', '#CD999A', '#EDD0D0', '#EEEEED', '#CCD9E3', '#90A9BD', '#527C99', '#23698F']
+common_violin: ['#C3CBB2', '#74815C', '#2C3C31', '#00202A']
+common_forest: ['#B63D3F', '#8D9AA6', '#D4C1B7', '#595D66', '#6D242C', '#A78982']
+bio_volcano: ['#CC6C71', '#D39092', '#EECACC', '#EDEEF2', '#BED7E2', '#76A9BB', '#3993AC']
+bio_dotplot: ['#F3ECEB', '#DFE2F4', '#B8C7EB', '#86A2D7', '#437ABD', '#21528C', '#003262', '#001D44', '#001437']
+bio_enrichment: {'蕾缪安': '#E99FA4', '玛恩纳': '#AD8A73', '史尔特尔': '#B9393C', '水月': '#93A7C0', '空弦': '#D09D81', '望': '#EFE5DC'}
+bio_pca: {'丰川祥子': '#6B7896', '新约能天使': '#D01819', '史尔特尔': '#B9393C'}

@@ -1,0 +1,33 @@
+
+[kidney50k_umap] adata
+AnnData object with n_obs × n_vars = 40268 × 32088
+    obs: 'donor_id', 'donor_age', 'self_reported_ethnicity_ontology_term_id', 'sample_uuid', 'tissue_ontology_term_id', 'development_stage_ontology_term_id', 'suspension_uuid', 'suspension_type', 'library_uuid', 'assay_ontology_term_id', 'mapped_reference_annotation', 'is_primary_data', 'cell_type_ontology_term_id', 'author_cell_type', 'cell_state', 'disease_ontology_term_id', 'reported_diseases', 'sex_ontology_term_id', 'Short_Sample', 'Project', 'Experiment', 'compartment', 'broad_celltype', 'tissue_type', 'cell_type', 'assay', 'disease', 'sex', 'tissue', 'self_reported_ethnicity', 'development_stage', 'observation_joinid'
+    var: 'feature_is_filtered', 'feature_name', 'feature_reference', 'feature_biotype', 'feature_length', 'feature_type'
+    uns: 'citation', 'default_embedding', 'organism', 'organism_ontology_term_id', 'schema_reference', 'schema_version', 'title'
+    obsm: 'X_umap'
+[kidney50k_umap] obs columns: ['donor_id', 'donor_age', 'self_reported_ethnicity_ontology_term_id', 'sample_uuid', 'tissue_ontology_term_id', 'development_stage_ontology_term_id', 'suspension_uuid', 'suspension_type', 'library_uuid', 'assay_ontology_term_id', 'mapped_reference_annotation', 'is_primary_data', 'cell_type_ontology_term_id', 'author_cell_type', 'cell_state', 'disease_ontology_term_id', 'reported_diseases', 'sex_ontology_term_id'] ...
+[kidney50k_umap] obs preview:
+                                    compartment                                                  cell_type donor_id     sex            tissue cell_state
+CZIKidney7632804_GCATGTATCCGAAGAG-1      non_PT  kidney loop of Henle thick ascending limb epithelial cell     TxK4    male  cortex of kidney         na
+4602STDY6930853_GGCTCGACATCCGTGG-1       non_PT                                 capillary endothelial cell     RCC1    male            kidney         na
+4602STDY6976428_GGAATAAAGCTGAACG-1           PT                         epithelial cell of proximal tubule     RCC2  female            kidney         na
+4602STDY6976426_CCACGGATCTGGCGTG-1     lymphoid                                        natural killer cell     RCC2  female            kidney         na
+4602STDY7018628_GCGGGTTTCTTCATGT-1           PT                         epithelial cell of proximal tubule     RCC3    male            kidney         na
+[kidney50k_umap] compartment counts:
+compartment
+PT          27845
+lymphoid     6456
+non_PT       4620
+myeloid      1347
+[kidney50k_umap] cell_type count: 29
+
+[kidney50k_umap] coarse group operator map:
+{'PT': '缪尔赛思', 'lymphoid': '令', 'myeloid': '黍', 'non_PT': '维什戴尔'}
+[kidney50k_umap] fine cell-type operator map:
+{'epithelial cell of proximal tubule': '缪尔赛思', 'B cell': '令', 'CD4-positive, alpha-beta T cell': '缪尔赛思', 'CD8-positive, alpha-beta T cell': '黍', 'mature NK T cell': '维什戴尔', 'natural killer cell': '丰川祥子', 'classical monocyte': '黍', 'dendritic cell': '缪尔赛思', 'kidney resident macrophage': '令', 'mast cell': '维什戴尔', 'neutrophil': '丰川祥子', 'non-classical monocyte': '玛恩纳', 'plasmacytoid dendritic cell': '蕾缪安', 'capillary endothelial cell': '维什戴尔', 'glomerular endothelial cell': '缪尔赛思', 'kidney connecting tubule epithelial cell': '令', 'kidney epithelial cell': '黍', 'kidney interstitial fibroblast': '丰川祥子', 'kidney loop of Henle thick ascending limb epithelial cell': '玛恩纳', 'myofibroblast cell': '蕾缪安', 'podocyte': '新约能天使', 'progenitor cell': '望', 'renal alpha-intercalated cell': '史尔特尔', 'renal beta-intercalated cell': '空弦', 'renal intercalated cell': '水月', 'renal principal cell': '逻各斯', 'urothelial cell': '维什戴尔', 'vasa recta ascending limb cell': '缪尔赛思', 'vasa recta descending limb cell': '令'}
+[kidney50k_umap] fine_colors:
+{'epithelial cell of proximal tubule': '#87946E', 'CD4-positive, alpha-beta T cell': '#29322E', 'dendritic cell': '#C6B44A', 'glomerular endothelial cell': '#C8CEBA', 'vasa recta ascending limb cell': '#56604C', 'B cell': '#4EA9C3', 'kidney resident macrophage': '#D8A15A', 'kidney connecting tubule epithelial cell': '#7E3A58', 'vasa recta descending limb cell': '#28465C', 'CD8-positive, alpha-beta T cell': '#C69A3A', 'classical monocyte': '#6D6E9B', 'kidney epithelial cell': '#59472A', 'mature NK T cell': '#B63D3F', 'mast cell': '#8D9AA6', 'capillary endothelial cell': '#271D20', 'urothelial cell': '#CA8689', 'natural killer cell': '#6B7896', 'neutrophil': '#BDA9AA', 'kidney interstitial fibroblast': '#383948', 'non-classical monocyte': '#AD8A73', 'kidney loop of Henle thick ascending limb epithelial cell': '#32231D', 'plasmacytoid dendritic cell': '#E99FA4', 'myofibroblast cell': '#232027', 'podocyte': '#D01819', 'progenitor cell': '#D3CAC2', 'renal alpha-intercalated cell': '#B9393C', 'renal beta-intercalated cell': '#D09D81', 'renal intercalated cell': '#93A7C0', 'renal principal cell': '#477DC0'}
+[kidney50k_umap] cluster_palette:
+['#4EA9C3', '#29322E', '#C69A3A', '#271D20', '#6D6E9B', '#C6B44A', '#87946E', '#C8CEBA', '#7E3A58', '#59472A', '#383948', '#32231D', '#D8A15A', '#8D9AA6', '#B63D3F', '#232027', '#6B7896', '#BDA9AA', '#AD8A73', '#E99FA4', '#D01819', '#D3CAC2', '#B9393C', '#D09D81', '#93A7C0', '#477DC0', '#CA8689', '#56604C', '#28465C']
+[kidney50k_umap] track_palette preview:
+['#87946E', '#4EA9C3', '#C69A3A', '#B63D3F', '#92362B', '#4EA9C3', '#E2C55D', '#28356F', '#303A16', '#EBBEC7', '#E74778', '#D01819', '#87946E', '#E47F4C', '#4D4853', '#8F4664', '#477DC0', '#4D2519', '#AC766B', '#E3CAA0']

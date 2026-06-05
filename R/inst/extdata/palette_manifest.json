@@ -1,0 +1,15 @@
+{
+  "schema_version": "0.1.0",
+  "palette_version": "0.2.0",
+  "generated_at": "2026-06-05T04:56:01.257455+00:00",
+  "source_operator_json": "F:\\1_Projects\\其它\\arknights-ranking-lab\\src\\data\\operators.json",
+  "source_operator_count": 417,
+  "built_operator_count": 417,
+  "failed_operator_count": 0,
+  "image_source": "avatar",
+  "curated_operator_count": 131,
+  "curated_palette_source": "C:\\Users\\Lenovo\\Documents\\Codex\\2026-06-04\\r-schwarzeneggerjune-genshinpalette-https-github-com\\outputs\\arknights-palette-data\\data\\curated_palettes.csv",
+  "color_method": "Genshinpalette-style fixed color table with optional curated overrides after image-based candidate extraction.",
+  "copyright_note": "This dataset stores computed colors only. Original character artworks are not redistributed.",
+  "failures": []
+}

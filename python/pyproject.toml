@@ -1,0 +1,20 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "arknights-palette"
+version = "0.2.0"
+description = "Arknights character palettes for scientific figures"
+readme = "README.md"
+requires-python = ">=3.9"
+license = {text = "MIT"}
+authors = [{name = "arknights_palette contributors"}]
+dependencies = []
+
+[project.optional-dependencies]
+plot = ["matplotlib"]
+test = ["pytest"]
+
+[tool.setuptools.package-data]
+arknights_palette = ["data/*.csv", "data/*.json"]

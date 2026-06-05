@@ -1,0 +1,65 @@
+operator_id,role,rank,hex,notes
+op-027,theme,1,#87946E,operator sage uniform
+op-027,accent_1,2,#C6B44A,device warm gold
+op-027,accent_2,3,#B8C2AE,cloak pale green gray
+op-027,dark,4,#151D20,black inner suit
+op-027,light,5,#E8EADF,hair and cloak white
+op-027,neutral,6,#70766A,uniform gray green
+op-027,support_7,7,#3E5648,deep uniform green
+op-027,support_8,8,#A08E52,trim muted gold
+op-042,theme,1,#274C63,abyssal blue
+op-042,accent_1,2,#A73245,blood red accent
+op-042,accent_2,3,#6F7F8D,steel gray blue
+op-042,dark,4,#101820,deep navy black
+op-042,light,5,#D8DDE0,cold white
+op-042,neutral,6,#595D63,armor gray
+op-042,support_7,7,#183148,dark sea blue
+op-042,support_8,8,#87344A,muted crimson
+op-163,theme,1,#B63D3F,wine red
+op-163,accent_1,2,#8D9AA6,cold gray blue
+op-163,accent_2,3,#D4C1B7,pale skin beige
+op-163,dark,4,#17191D,black coat
+op-163,light,5,#E2DDE0,pale gray
+op-163,neutral,6,#595D66,smoke gray
+op-163,support_7,7,#6D242C,dark red
+op-163,support_8,8,#A78982,warm gray
+op-223,theme,1,#C69A3A,wheat gold
+op-223,accent_1,2,#6D6E9B,soft violet blue
+op-223,accent_2,3,#88A06A,grain green
+op-223,dark,4,#241F22,dark robe
+op-223,light,5,#EFE5D3,warm paper
+op-223,neutral,6,#7C735F,straw gray
+op-223,support_7,7,#7E5D27,deep ochre
+op-223,support_8,8,#D8B862,light gold
+op-229,theme,1,#5E8F7A,medical green
+op-229,accent_1,2,#B7C5A1,muted lime
+op-229,accent_2,3,#2E463F,dark green
+op-229,dark,4,#121817,black uniform
+op-229,light,5,#E7E8DD,white coat
+op-229,neutral,6,#747B70,gray green
+op-229,support_7,7,#91A66C,olive green
+op-229,support_8,8,#3F6253,teal shadow
+op-267,theme,1,#4EA9C3,celestial cyan
+op-267,accent_1,2,#D8A15A,warm gold
+op-267,accent_2,3,#7E3A58,wine violet
+op-267,dark,4,#192035,night blue
+op-267,light,5,#EAE6DB,porcelain white
+op-267,neutral,6,#6A7180,blue gray
+op-267,support_7,7,#275F93,deep blue
+op-267,support_8,8,#9DC9D2,pale cyan
+op-274,theme,1,#4D4853,cold mauve black
+op-274,accent_1,2,#CDBDB8,pale rose gray
+op-274,accent_2,3,#8B8288,soft hair shadow
+op-274,dark,4,#111217,black dress
+op-274,light,5,#EFE8E6,white pink haze
+op-274,neutral,6,#6E686D,ash gray
+op-274,support_7,7,#2B2C33,deep hair black
+op-274,support_8,8,#A89494,warm smoke rose
+op-288,theme,1,#5FAFC8,sea voice blue
+op-288,accent_1,2,#B94752,coral red accent
+op-288,accent_2,3,#7E8FB5,abyss violet blue
+op-288,dark,4,#171A2A,deep ocean navy
+op-288,light,5,#DDE7EE,ice white
+op-288,neutral,6,#5C6477,storm gray
+op-288,support_7,7,#2C3658,deep blue violet
+op-288,support_8,8,#A8C9D5,pale sea blue

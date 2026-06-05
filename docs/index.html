@@ -1,0 +1,1002 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>arkplatte plotting tutorial</title>
+  <style>
+    :root {
+      --bg: #ffffff;
+      --surface: #f8f9fb;
+      --sidebar: #f5f6f8;
+      --ink: #1f2328;
+      --muted: #6b7280;
+      --line: #d8dee4;
+      --link: #2563a8;
+      --link-hover: #174a7c;
+      --brand: #3b82c4;
+      --code-bg: #f6f8fa;
+      --code-border: #d0d7de;
+      --green: #5f8f36;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: var(--bg);
+      font-family: "Inter", "HarmonyOS Sans SC", "Source Han Sans SC", "Noto Sans CJK SC", "PingFang SC", "Microsoft YaHei UI", "Microsoft YaHei", sans-serif;
+      font-size: 15px;
+      line-height: 1.65;
+    }
+    a { color: var(--link); text-decoration: none; }
+    a:hover { color: var(--link-hover); text-decoration: underline; }
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      height: 56px;
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      align-items: center;
+      border-bottom: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.96);
+      backdrop-filter: blur(8px);
+    }
+    .logo {
+      height: 56px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 0 20px;
+      border-right: 1px solid var(--line);
+      font-weight: 700;
+    }
+    .logo-mark {
+      width: 28px;
+      height: 28px;
+      border-radius: 6px;
+      background: linear-gradient(135deg, #7d9035, #3b82c4);
+    }
+    .top-main {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      padding: 0 24px;
+    }
+    .crumb {
+      color: var(--muted);
+      font-size: 13px;
+    }
+    .search {
+      width: min(360px, 42vw);
+      height: 34px;
+      display: flex;
+      align-items: center;
+      padding: 0 12px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      color: var(--muted);
+      background: var(--surface);
+      font-size: 13px;
+    }
+    .page {
+      display: grid;
+      grid-template-columns: 280px minmax(0, 1fr) 230px;
+      min-height: calc(100vh - 56px);
+    }
+    .left-nav {
+      position: sticky;
+      top: 56px;
+      height: calc(100vh - 56px);
+      overflow-y: auto;
+      padding: 18px 16px 28px;
+      border-right: 1px solid var(--line);
+      background: var(--sidebar);
+    }
+    .left-nav h2,
+    .right-toc h2 {
+      margin: 12px 8px 8px;
+      color: #374151;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+    .left-nav a,
+    .right-toc a {
+      display: block;
+      padding: 6px 8px;
+      border-radius: 5px;
+      color: #374151;
+      font-size: 13px;
+    }
+    .left-nav a:hover,
+    .right-toc a:hover {
+      background: #e9eef5;
+      text-decoration: none;
+    }
+    .left-nav .active {
+      color: var(--link);
+      font-weight: 700;
+      background: #eaf3fb;
+    }
+    .right-toc {
+      position: sticky;
+      top: 56px;
+      height: calc(100vh - 56px);
+      overflow-y: auto;
+      padding: 22px 18px;
+      border-left: 1px solid var(--line);
+      background: #fff;
+    }
+    main {
+      min-width: 0;
+      padding: 34px 42px 70px;
+    }
+    article {
+      width: min(860px, 100%);
+      margin: 0 auto;
+    }
+    .intro {
+      padding-bottom: 20px;
+      border-bottom: 1px solid var(--line);
+      margin-bottom: 26px;
+    }
+    .tagline {
+      margin: 0 0 8px;
+      color: var(--brand);
+      font-weight: 700;
+      font-size: 13px;
+    }
+    h1 {
+      margin: 0 0 12px;
+      font-size: 42px;
+      line-height: 1.16;
+      letter-spacing: 0;
+    }
+    h2 {
+      margin: 38px 0 12px;
+      padding-top: 8px;
+      font-size: 26px;
+      line-height: 1.25;
+      border-top: 1px solid var(--line);
+    }
+    h3 {
+      margin: 24px 0 10px;
+      font-size: 18px;
+    }
+    p { margin: 0 0 13px; }
+    .lead {
+      color: #4b5563;
+      font-size: 16px;
+      max-width: 760px;
+    }
+    .admonition {
+      margin: 16px 0;
+      border: 1px solid #c7d8ea;
+      border-left: 4px solid var(--brand);
+      border-radius: 6px;
+      background: #f3f8fd;
+      padding: 12px 14px;
+    }
+    .admonition-title {
+      margin-bottom: 4px;
+      color: #1f5f99;
+      font-weight: 700;
+      font-size: 14px;
+    }
+    .api-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      margin: 14px 0;
+    }
+    .operator-gallery {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+      margin: 16px 0 22px;
+    }
+    .operator-gallery img {
+      display: block;
+      width: 100%;
+      height: auto;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+    }
+    .api-item {
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: var(--surface);
+      padding: 10px 12px;
+    }
+    .api-item code {
+      color: #0550ae;
+      font-weight: 700;
+    }
+    .function-list {
+      display: grid;
+      gap: 12px;
+      margin: 16px 0 20px;
+    }
+    .function-card {
+      border: 1px solid #ccd7e2;
+      border-radius: 8px;
+      background: #fbfcfe;
+      overflow: hidden;
+    }
+    .function-card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 10px 14px;
+      border-bottom: 1px solid #dbe3ec;
+      background: #eef5fb;
+    }
+    .function-card-title {
+      margin: 0;
+      color: #143c5f;
+      font-size: 15px;
+      font-weight: 800;
+    }
+    .function-card-kind {
+      color: #5f6b7a;
+      font-size: 12px;
+    }
+    .signature-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      padding: 12px 14px 4px;
+    }
+    .signature {
+      border: 1px solid #d8e0e8;
+      border-radius: 7px;
+      background: #fff;
+      padding: 10px 12px;
+    }
+    .signature-label {
+      display: inline-flex;
+      margin-bottom: 6px;
+      padding: 2px 7px;
+      border-radius: 999px;
+      background: #dceeff;
+      color: #155f9e;
+      font-size: 12px;
+      font-weight: 700;
+    }
+    .signature code {
+      display: block;
+      color: #064f9e;
+      font-size: 13px;
+      font-weight: 800;
+      white-space: normal;
+      word-break: break-word;
+    }
+    .function-card-body {
+      display: grid;
+      grid-template-columns: 1.1fr 1.2fr 0.8fr;
+      gap: 12px;
+      padding: 10px 14px 14px;
+      color: #2f3742;
+      font-size: 14px;
+    }
+    .function-card-body strong {
+      display: block;
+      margin-bottom: 4px;
+      color: #1d4f7a;
+      font-size: 13px;
+    }
+    .param-table code,
+    pre,
+    code {
+      font-family: "JetBrains Mono", "SFMono-Regular", "Cascadia Code", "Consolas", "Liberation Mono", monospace;
+    }
+    .param-table th:nth-child(1) { width: 22%; }
+    .param-table th:nth-child(2) { width: 25%; }
+    .param-table th:nth-child(3) { width: 31%; }
+    .param-table th:nth-child(4) { width: 22%; }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 12px 0 18px;
+      font-size: 14px;
+      display: block;
+      overflow-x: auto;
+    }
+    th, td {
+      border: 1px solid var(--line);
+      padding: 8px 10px;
+      text-align: left;
+      vertical-align: top;
+    }
+    th {
+      background: var(--surface);
+      font-weight: 700;
+    }
+    .notebook {
+      margin: 14px 0 18px;
+      border: 1px solid var(--code-border);
+      border-radius: 6px;
+      overflow: hidden;
+      background: var(--code-bg);
+    }
+    .code-label {
+      padding: 7px 12px;
+      border-bottom: 1px solid var(--code-border);
+      color: #57606a;
+      background: #edf2f7;
+      font-size: 12px;
+      font-family: "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
+    }
+    pre {
+      margin: 0;
+      padding: 13px 14px;
+      overflow-x: auto;
+      color: #24292f;
+      background: var(--code-bg);
+      font-size: 12.5px;
+      line-height: 1.48;
+    }
+    code {
+      font-family: "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
+      font-size: 0.94em;
+    }
+    .output {
+      margin: 10px 0 22px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: #fff;
+      overflow: hidden;
+    }
+    .output img {
+      display: block;
+      width: 100%;
+      height: auto;
+      background: #fff;
+    }
+    .caption {
+      padding: 10px 12px;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 13px;
+    }
+    .two-col {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+    }
+    .small-figure img { max-height: 340px; object-fit: contain; }
+    .file-list {
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: var(--surface);
+      padding: 12px 16px;
+    }
+    footer {
+      margin-top: 42px;
+      padding-top: 18px;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 13px;
+    }
+    @media (max-width: 1100px) {
+      .page { grid-template-columns: 250px minmax(0, 1fr); }
+      .right-toc { display: none; }
+      .topbar { grid-template-columns: 250px 1fr; }
+    }
+    @media (max-width: 820px) {
+      .topbar { position: static; grid-template-columns: 1fr; height: auto; }
+      .logo { border-right: 0; border-bottom: 1px solid var(--line); }
+      .top-main { padding: 10px 18px; }
+      .search { display: none; }
+      .page { grid-template-columns: 1fr; }
+      .left-nav {
+        position: static;
+        height: auto;
+        border-right: 0;
+        border-bottom: 1px solid var(--line);
+      }
+      main { padding: 24px 18px 52px; }
+      h1 { font-size: 32px; }
+      .api-grid, .two-col, .operator-gallery, .signature-grid, .function-card-body { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="topbar">
+    <div class="logo">
+      <div class="logo-mark" aria-hidden="true"></div>
+      <span>arkplatte docs</span>
+    </div>
+    <div class="top-main">
+      <div class="crumb">Tutorials / Plotting / Arknights palettes</div>
+      <div class="search">Ctrl + K&nbsp;&nbsp;搜索文档</div>
+    </div>
+  </div>
+
+  <div class="page">
+    <aside class="left-nav">
+      <h2>基础</h2>
+      <a class="active" href="#overview">Overview</a>
+      <a href="#palette-gallery">效果展示</a>
+      <a href="#api">函数及使用方法</a>
+      <h2>Common plots</h2>
+      <a href="#bar">Bar chart</a>
+      <a href="#line">Line chart</a>
+      <a href="#scatter">Scatter plot</a>
+      <a href="#heatmap">Heatmap</a>
+      <a href="#violin">Violin plot</a>
+      <a href="#forest">Forest plot</a>
+      <h2>Bioinformatics</h2>
+      <a href="#volcano">Volcano plot</a>
+      <a href="#dotplot">Marker dot plot</a>
+      <a href="#enrichment">Enrichment</a>
+      <a href="#pca">PCA</a>
+      <h2>Single-cell</h2>
+      <a href="#mapping">Cell-type mapping</a>
+      <a href="#umap">UMAP</a>
+      <a href="#plot1cell">plot1cell</a>
+      <h2>Files</h2>
+      <a href="#files">Scripts and outputs</a>
+    </aside>
+
+    <main>
+      <article>
+        <section class="intro" id="overview">
+          <p class="tagline">Arknights palette tutorial</p>
+          <h1>明日方舟科研配色教程</h1>
+          <div class="admonition">
+            <div class="admonition-title">库简介</div>
+            <p><code>arkplatte</code> 为明日方舟角色主题科研绘图提供 Python 库和 R 包，适合连续数值、正负差异、分组注释、热图、火山图、UMAP 和 plot1cell 等常见场景。</p>
+            <p>配色采用固定校准表，覆盖 417 名干员；头像近景优先用于角色本体取色，立绘作为备用来源。函数读取固化后的 <code>palettes.csv</code>，保证同一角色在不同图中保持稳定视觉语义；其中 131 名六星干员保留人工校准表。</p>
+            <p>色阶生成结合 Lab 感知色彩空间插值、亮度单调约束、双向色阶高亮中点、两端亮度对称和分类色最大距离选择。单细胞数据可用大类绑定角色主题，小类在同一主题内自动挑选距离更合适的颜色，从而兼顾层级关系和类别区分度。</p>
+          </div>
+        </section>
+
+        <section id="palette-gallery">
+          <h2>效果展示</h2>
+          <div class="operator-gallery">
+            <img src="figures/operator_palettes/01-cello.png" alt="塑心角色配色">
+            <img src="figures/operator_palettes/02-skadi2.png" alt="浊心斯卡蒂角色配色">
+            <img src="figures/operator_palettes/03-mlyss.png" alt="缪尔赛思角色配色">
+            <img src="figures/operator_palettes/04-wisdel.png" alt="维什戴尔角色配色">
+            <img src="figures/operator_palettes/05-ling.png" alt="令角色配色">
+            <img src="figures/operator_palettes/06-shu.png" alt="黍角色配色">
+            <img src="figures/operator_palettes/07-logos.png" alt="逻各斯角色配色">
+            <img src="figures/operator_palettes/08-surtr.png" alt="史尔特尔角色配色">
+            <img src="figures/operator_palettes/09-mlynar.png" alt="玛恩纳角色配色">
+            <img src="figures/operator_palettes/10-kalts.png" alt="凯尔希角色配色">
+            <img src="figures/operator_palettes/11-mizuki.png" alt="水月角色配色">
+            <img src="figures/operator_palettes/12-archet.png" alt="空弦角色配色">
+          </div>
+        </section>
+
+        <section id="api">
+          <h2>函数及使用方法</h2>
+          <div class="api-grid">
+            <div class="api-item"><code>arkplatte(name, n)</code><br>角色核心色。</div>
+            <div class="api-item"><code>arkplatte_seq(name, n)</code><br>单向连续色。</div>
+            <div class="api-item"><code>arkplatte_div(name, n)</code><br>双向连续色。</div>
+            <div class="api-item"><code>arkplatte_cat(n)</code><br>跨角色分类色。</div>
+            <div class="api-item"><code>arkplatte_cell(celltypes)</code><br>细胞类型分类色，适合单细胞分析实验。</div>
+            <div class="api-item"><code>arkplatte_sub(map, operator)</code><br>大类绑定角色，小类按数量自适应选色。</div>
+            <div class="api-item"><code>curated_palettes.csv</code><br>六星人工校准表。</div>
+          </div>
+          <div class="function-list">
+            <div class="function-card">
+              <div class="function-card-header"><p class="function-card-title">核心色与色阶入口</p><span class="function-card-kind">核心 / 单向 / 双向</span></div>
+              <div class="signature-grid">
+                <div class="signature"><span class="signature-label">Python</span><code>akp.arkplatte(name, n=None, kind="core")</code></div>
+                <div class="signature"><span class="signature-label">R</span><code>arkplatte(name, n = NULL, type = "core")</code></div>
+              </div>
+              <div class="function-card-body">
+                <div><strong>参数</strong><code>name</code>：中文名、<code>name_key</code> 或干员编号。<br><code>n</code>：颜色数量。<br><code>kind/type</code>：<code>"core"</code>、<code>"seq"</code>、<code>"div"</code>。</div>
+                <div><strong>调节内容</strong>读取角色核心色；设置 <code>n</code> 时插值到指定数量；可直接切换核心色、单向连续色或双向连续色。</div>
+                <div><strong>返回值</strong>颜色向量或颜色列表。</div>
+              </div>
+            </div>
+            <div class="function-card">
+              <div class="function-card-header"><p class="function-card-title">单向连续色</p><span class="function-card-kind">0 到 1 / 表达量 / 丰度</span></div>
+              <div class="signature-grid">
+                <div class="signature"><span class="signature-label">Python</span><code>akp.arkplatte_seq(name, n=256)</code></div>
+                <div class="signature"><span class="signature-label">R</span><code>arkplatte_seq(name, n = 256)</code></div>
+              </div>
+              <div class="function-card-body">
+                <div><strong>参数</strong><code>name</code>：角色。<br><code>n</code>：连续色数量，教程示例常用 5 到 10。</div>
+                <div><strong>调节内容</strong>生成亮度单调的单向连续色；Lab 插值让亮度从浅到深平滑变化。</div>
+                <div><strong>返回值</strong>亮度单调色阶。</div>
+              </div>
+            </div>
+            <div class="function-card">
+              <div class="function-card-header"><p class="function-card-title">双向连续色</p><span class="function-card-kind">-1 到 1 / 差异 / 相关系数</span></div>
+              <div class="signature-grid">
+                <div class="signature"><span class="signature-label">Python</span><code>akp.arkplatte_div(name, n=257)</code></div>
+                <div class="signature"><span class="signature-label">R</span><code>arkplatte_div(name, n = 257)</code></div>
+              </div>
+              <div class="function-card-body">
+                <div><strong>参数</strong><code>name</code>：角色。<br><code>n</code>：双向色数量，教程示例常用 7 或 9。</div>
+                <div><strong>调节内容</strong>生成中点高亮、两端亮度对称的双向连续色，适合有正负方向的数值。</div>
+                <div><strong>返回值</strong>双向色阶。</div>
+              </div>
+            </div>
+            <div class="function-card">
+              <div class="function-card-header"><p class="function-card-title">跨角色分类色</p><span class="function-card-kind">分组 / 注释 / 图例</span></div>
+              <div class="signature-grid">
+                <div class="signature"><span class="signature-label">Python</span><code>akp.arkplatte_cat(n, seed=None, large_n="warn", optimize=True)</code></div>
+                <div class="signature"><span class="signature-label">R</span><code>arkplatte_cat(n, seed = NULL, large_n = "warn", optimize = TRUE)</code></div>
+              </div>
+              <div class="function-card-body">
+                <div><strong>参数</strong><code>n</code>：类别数量。<br><code>seed</code>：起始偏移。<br><code>large_n</code>：超过 30 类时的策略。<br><code>optimize</code>：是否按 Lab 距离优化。</div>
+                <div><strong>调节内容</strong>生成跨角色分类色；默认优先挑距离更远的颜色；超过 30 类时提醒切换到分组、分面或上层注释。</div>
+                <div><strong>返回值</strong>分类颜色向量。</div>
+              </div>
+            </div>
+            <div class="function-card">
+              <div class="function-card-header"><p class="function-card-title">细胞类型分类色</p><span class="function-card-kind">单细胞分析实验</span></div>
+              <div class="signature-grid">
+                <div class="signature"><span class="signature-label">Python</span><code>akp.arkplatte_cell(celltypes, seed=1, large_n="warn")</code></div>
+                <div class="signature"><span class="signature-label">R</span><code>arkplatte_cell(celltypes, seed = 1, large_n = "warn")</code></div>
+              </div>
+              <div class="function-card-body">
+                <div><strong>参数</strong><code>celltypes</code>：细胞类型列表。<br><code>seed</code>：分类色偏移。<br><code>large_n</code>：大类别数策略。</div>
+                <div><strong>调节内容</strong>给细胞类型名称直接分配颜色，适合 UMAP、t-SNE 和细胞注释图。</div>
+                <div><strong>返回值</strong>名称到颜色的映射。</div>
+              </div>
+            </div>
+            <div class="function-card">
+              <div class="function-card-header"><p class="function-card-title">大类与小类分层配色</p><span class="function-card-kind">粗分类 / 细分类</span></div>
+              <div class="signature-grid">
+                <div class="signature"><span class="signature-label">Python</span><code>akp.arkplatte_sub(subtype_map, group_operator, candidates_per_group=96)</code></div>
+                <div class="signature"><span class="signature-label">R</span><code>arkplatte_sub(subtype_map, group_operator, candidates_per_group = 96)</code></div>
+              </div>
+              <div class="function-card-body">
+                <div><strong>参数</strong><code>subtype_map</code>：大类到小类列表。<br><code>group_operator</code>：大类到角色。<br><code>candidates_per_group</code>：每个大类候选色数量。</div>
+                <div><strong>调节内容</strong>为每个大类绑定一个角色主题；按小类数量扩展候选池，再按色彩距离挑选更分散的颜色。</div>
+                <div><strong>返回值</strong>小类名称到颜色的映射。</div>
+              </div>
+            </div>
+            <div class="function-card">
+              <div class="function-card-header"><p class="function-card-title">角色名称与信息查询</p><span class="function-card-kind">元数据</span></div>
+              <div class="signature-grid">
+                <div class="signature"><span class="signature-label">Python</span><code>akp.arkplatte_names(rarity=None)<br>akp.arkplatte_info(name)</code></div>
+                <div class="signature"><span class="signature-label">R</span><code>arkplatte_names(rarity = NULL)<br>arkplatte_info(name)</code></div>
+              </div>
+              <div class="function-card-body">
+                <div><strong>参数</strong><code>rarity</code>：稀有度；设为空值返回全部。<br><code>name</code>：角色查询键。</div>
+                <div><strong>调节内容</strong>查看可用干员名称，或查询角色编号、中文名、职业、分支和数据来源。</div>
+                <div><strong>返回值</strong>名称列表或角色信息。</div>
+              </div>
+            </div>
+            <div class="function-card">
+              <div class="function-card-header"><p class="function-card-title">主题色提取</p><span class="function-card-kind">多角色主色</span></div>
+              <div class="signature-grid">
+                <div class="signature"><span class="signature-label">Python</span><code>akp.arkplatte_theme(names)</code></div>
+                <div class="signature"><span class="signature-label">R</span><code>arkplatte_theme(names)</code></div>
+              </div>
+              <div class="function-card-body">
+                <div><strong>参数</strong><code>names</code>：角色列表。</div>
+                <div><strong>调节内容</strong>快速提取多个角色的主题色，适合大类颜色或图例主色。</div>
+                <div><strong>返回值</strong>角色到主题色的映射。</div>
+              </div>
+            </div>
+            <div class="function-card">
+              <div class="function-card-header"><p class="function-card-title">绘图接口辅助</p><span class="function-card-kind">Python 色图 / R 预览</span></div>
+              <div class="signature-grid">
+                <div class="signature"><span class="signature-label">Python</span><code>akp.arkplatte_cmap(name, kind="seq", n=256)</code></div>
+                <div class="signature"><span class="signature-label">R</span><code>arkplatte_show(name, n = NULL)</code></div>
+              </div>
+              <div class="function-card-body">
+                <div><strong>参数</strong><code>name</code>：角色。<br><code>kind</code>：<code>"seq"</code> 或 <code>"div"</code>。<br><code>n</code>：颜色数量。</div>
+                <div><strong>调节内容</strong>Python 生成 Matplotlib 可直接使用的颜色映射；R 快速预览角色色板。</div>
+                <div><strong>返回值</strong>颜色映射对象或颜色向量。</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="two-col">
+            <div class="notebook">
+              <div class="code-label">Python</div>
+              <pre><code>import arknights_palette as akp
+
+akp.arkplatte("浊心斯卡蒂", 6)
+akp.arkplatte_seq("塑心", 7)
+akp.arkplatte_div("浊心斯卡蒂", 7)
+akp.arkplatte_cat(8, seed=1)</code></pre>
+              <pre><code>['#5FAFC8', '#B94752', '#7E8FB5', '#171A2A', '#DDE7EE', '#5C6477']
+['#F1EBE9', '#DED8DB', '#B1ABB3', '#79747F', '#44414C', '#1F1F27', '#101219']
+['#CC6C71', '#D39092', '#EECACC', '#EDEEF2', '#BED7E2', '#76A9BB', '#3993AC']
+['#3A3F47', '#D01819', '#E2C55D', '#EBBEC7', '#5CB19C', '#90393B', '#477DC0', '#E47F4C']</code></pre>
+            </div>
+            <div class="notebook">
+              <div class="code-label">R</div>
+              <pre><code>library(arknightsPalette)
+
+arkplatte("浊心斯卡蒂", 6)
+arkplatte_seq("塑心", 7)
+arkplatte_div("浊心斯卡蒂", 7)
+arkplatte_cat(8, seed = 1)</code></pre>
+              <pre><code>c("#5FAFC8", "#B94752", "#7E8FB5", "#171A2A", "#DDE7EE", "#5C6477")
+c("#F1EBE9", "#DED8DB", "#B1ABB3", "#79747F", "#44414C", "#1F1F27", "#101219")
+c("#CC6C71", "#D39092", "#EECACC", "#EDEEF2", "#BED7E2", "#76A9BB", "#3993AC")
+c("#3A3F47", "#D01819", "#E2C55D", "#EBBEC7", "#5CB19C", "#90393B", "#477DC0", "#E47F4C")</code></pre>
+            </div>
+          </div>
+        </section>
+
+        <section id="bar">
+          <h2>Bar chart</h2>
+          <div class="notebook">
+            <div class="code-label">Python</div>
+            <pre><code>div = akp.arkplatte_div("浊心斯卡蒂", 7)
+colors = [div[6], div[5], div[1], div[0], "#8F3343"]
+ax.axhline(0, color="#AFAFAF")
+ax.bar(labels, values, yerr=err, color=colors)</code></pre>
+          </div>
+          <div class="notebook">
+            <div class="code-label">R</div>
+            <pre><code>div <- arkplatte_div("浊心斯卡蒂", 7)
+cols <- c(div[7], div[6], div[2], div[1], "#8F3343")
+ggplot(df, aes(group, value, fill = group)) +
+  geom_col() +
+  geom_hline(yintercept = 0, colour = "#AFAFAF") +
+  scale_fill_manual(values = cols)</code></pre>
+          </div>
+          <div class="output small-figure">
+            <img src="figures/common_bar.png" alt="柱状图示例">
+            <div class="caption">浊心斯卡蒂双向色板用于正负方向，蓝色和红色分别标记不同方向。</div>
+          </div>
+        </section>
+
+        <section id="line">
+          <h2>Line chart</h2>
+          <div class="notebook">
+            <div class="code-label">Python</div>
+            <pre><code>colors = akp.arkplatte_seq("塑心", 5)[1:4]
+for c, y in zip(colors, series):
+    ax.plot(x, y, color=c, marker="o")</code></pre>
+          </div>
+          <div class="notebook">
+            <div class="code-label">R</div>
+            <pre><code>cols <- arkplatte_seq("塑心", 5)[2:4]
+ggplot(df, aes(time, value, colour = group)) +
+  geom_line() +
+  scale_colour_manual(values = cols)</code></pre>
+          </div>
+          <div class="output small-figure">
+            <img src="figures/common_line.png" alt="折线图示例">
+            <div class="caption">同一角色色带内区分相关序列。</div>
+          </div>
+        </section>
+
+        <section id="scatter">
+          <h2>Scatter plot</h2>
+          <div class="notebook">
+            <div class="code-label">Python</div>
+            <pre><code>colors = akp.arkplatte_theme(["凯尔希", "塑心", "乌尔比安"])
+ax.scatter(x, y, s=size, color=colors["塑心"], alpha=.68)</code></pre>
+          </div>
+          <div class="notebook">
+            <div class="code-label">R</div>
+            <pre><code>cols <- arkplatte_theme(c("凯尔希", "塑心", "乌尔比安"))
+ggplot(df, aes(x, y, size = score, colour = group)) +
+  geom_point(alpha = .7) +
+  scale_colour_manual(values = cols)</code></pre>
+          </div>
+          <div class="output small-figure">
+            <img src="figures/common_scatter.png" alt="散点与气泡图示例">
+            <div class="caption">大类使用不同角色主题色。</div>
+          </div>
+        </section>
+
+        <section id="heatmap">
+          <h2>Heatmap</h2>
+          <div class="notebook">
+            <div class="code-label">Python</div>
+            <pre><code>cmap = akp.arkplatte_cmap("乌尔比安", "div", 9)
+ax.imshow(mat, cmap=cmap, vmin=-2.4, vmax=2.4)</code></pre>
+          </div>
+          <div class="notebook">
+            <div class="code-label">R</div>
+            <pre><code>cols <- arkplatte_div("乌尔比安", 9)
+ComplexHeatmap::Heatmap(mat, col = circlize::colorRamp2(
+  c(-2, 0, 2), cols[c(1, 5, 9)]))</code></pre>
+          </div>
+          <div class="output small-figure">
+            <img src="figures/common_heatmap.png" alt="热图示例">
+            <div class="caption">双向色适合 Z 分数、残差和相关系数。</div>
+          </div>
+        </section>
+
+        <section id="violin">
+          <h2>Violin plot</h2>
+          <div class="notebook">
+            <div class="code-label">Python</div>
+            <pre><code>colors = akp.arkplatte_seq("缪尔赛思", 5)[1:]
+parts = ax.violinplot(data, showmedians=True)</code></pre>
+          </div>
+          <div class="notebook">
+            <div class="code-label">R</div>
+            <pre><code>cols <- arkplatte_seq("缪尔赛思", 5)[2:5]
+ggplot(df, aes(group, value, fill = group)) +
+  geom_violin() +
+  scale_fill_manual(values = cols)</code></pre>
+          </div>
+          <div class="output small-figure">
+            <img src="figures/common_violin.png" alt="小提琴图示例">
+            <div class="caption">连续角色色带用于组间表达分布。</div>
+          </div>
+        </section>
+
+        <section id="forest">
+          <h2>Forest plot</h2>
+          <div class="notebook">
+            <div class="code-label">Python</div>
+            <pre><code>core = akp.arkplatte("维什戴尔", 8)
+colors = [core[i] for i in [0, 1, 2, 5, 6, 7]]
+print("common_forest:", colors)
+ax.axvline(0, color="#B8B8B8")
+for i, color in enumerate(colors):
+    ax.errorbar(effect[i], y[i], xerr=ci[:, i:i+1],
+                fmt="o", color=color)</code></pre>
+          </div>
+          <div class="notebook">
+            <div class="code-label">R</div>
+            <pre><code>col <- arkplatte_theme("维什戴尔")
+ggplot(df, aes(effect, term)) +
+  geom_vline(xintercept = 0, colour = "grey75") +
+  geom_pointrange(aes(xmin = low, xmax = high), colour = col)</code></pre>
+          </div>
+          <div class="output small-figure">
+            <img src="figures/common_forest.png" alt="森林图示例">
+            <div class="caption">维什戴尔核心色用于逐行区分，灰色参考线保留统计语义。</div>
+          </div>
+        </section>
+
+        <section id="volcano">
+          <h2>Volcano plot</h2>
+          <div class="notebook">
+            <div class="code-label">Python</div>
+            <pre><code>div = akp.arkplatte_div("浊心斯卡蒂", 7)
+colors = np.full(log_fc.shape, "#B8BEC6", dtype=object)
+colors[sig_down] = div[-1]
+colors[sig_up] = div[0]
+print("bio_volcano:", div)</code></pre>
+            <pre><code>bio_volcano: ['#CC6C71', '#D39092', '#EECACC', '#EDEEF2',
+              '#BED7E2', '#76A9BB', '#3993AC']</code></pre>
+          </div>
+          <div class="output small-figure">
+            <img src="figures/bio_volcano.png" alt="火山图示例">
+            <div class="caption">浊心斯卡蒂双向色板用于差异方向；灰色保留非显著点。</div>
+          </div>
+        </section>
+
+        <section id="dotplot">
+          <h2>Marker dot plot</h2>
+          <div class="notebook">
+            <div class="code-label">Python</div>
+            <pre><code>dot_cols = akp.arkplatte_seq("逻各斯", 9)
+cmap = akp.arkplatte_cmap("逻各斯", "seq", 128)
+print("bio_dotplot:", dot_cols)</code></pre>
+            <pre><code>bio_dotplot: ['#F3ECEB', '#DFE2F4', '#B8C7EB', '#86A2D7',
+              '#437ABD', '#21528C', '#003262', '#001D44', '#001437']</code></pre>
+          </div>
+          <div class="output small-figure">
+            <img src="figures/bio_dotplot.png" alt="基因表达点图示例">
+            <div class="caption">颜色表示平均表达量，点大小表示阳性细胞比例。</div>
+          </div>
+        </section>
+
+        <section id="enrichment">
+          <h2>Enrichment</h2>
+          <div class="notebook">
+            <div class="code-label">Python</div>
+            <pre><code>operators = ["蕾缪安", "玛恩纳", "史尔特尔", "水月", "空弦", "望"]
+colors = akp.arkplatte_theme(operators)
+print("bio_enrichment:", colors)</code></pre>
+            <pre><code>bio_enrichment: {'蕾缪安': '#E99FA4', '玛恩纳': '#AD8A73',
+                 '史尔特尔': '#B9393C', '水月': '#93A7C0',
+                 '空弦': '#D09D81', '望': '#EFE5DC'}</code></pre>
+          </div>
+          <div class="output small-figure">
+            <img src="figures/bio_enrichment.png" alt="通路富集图示例">
+            <div class="caption">多通路或多模块可直接使用不同角色主题色。</div>
+          </div>
+        </section>
+
+        <section id="pca">
+          <h2>PCA</h2>
+          <div class="notebook">
+            <div class="code-label">Python</div>
+            <pre><code>operators = {"control": "丰川祥子", "treated": "新约能天使", "relapse": "史尔特尔"}
+colors = akp.arkplatte_theme(list(operators.values()))
+print("bio_pca:", colors)</code></pre>
+            <pre><code>bio_pca: {'丰川祥子': '#6B7896', '新约能天使': '#D01819', '史尔特尔': '#B9393C'}</code></pre>
+          </div>
+          <div class="output small-figure">
+            <img src="figures/bio_pca.png" alt="PCA 样本图示例">
+            <div class="caption">样本分组图使用角色主题色，图例可长期保持语义稳定。</div>
+          </div>
+        </section>
+
+        <section id="mapping">
+          <h2>Cell-type mapping</h2>
+          <p>单细胞示例中，粗层级使用 <code>compartment</code>，细层级使用 <code>cell_type</code>。</p>
+          <p><code>arkplatte_sub()</code> 会按每个大类下的小类数量扩展候选色，从角色核心色、单向连续色和双向连续色中挑选距离更远的颜色。</p>
+          <table>
+            <thead><tr><th>数据集</th><th>粗层级</th><th>角色主题</th></tr></thead>
+            <tbody>
+              <tr><td><code>lung10k</code></td><td><code>endothelial</code></td><td>凯尔希</td></tr>
+              <tr><td><code>lung10k</code></td><td><code>epithelial</code></td><td>浊心斯卡蒂</td></tr>
+              <tr><td><code>lung10k</code></td><td><code>immune</code></td><td>塑心</td></tr>
+              <tr><td><code>lung10k</code></td><td><code>stromal</code></td><td>乌尔比安</td></tr>
+              <tr><td><code>kidney50k</code></td><td><code>PT</code></td><td>缪尔赛思</td></tr>
+              <tr><td><code>kidney50k</code></td><td><code>lymphoid</code></td><td>令</td></tr>
+              <tr><td><code>kidney50k</code></td><td><code>myeloid</code></td><td>黍</td></tr>
+              <tr><td><code>kidney50k</code></td><td><code>non_PT</code></td><td>维什戴尔</td></tr>
+            </tbody>
+          </table>
+          <table>
+            <thead><tr><th>数据集</th><th>小类角色池</th></tr></thead>
+            <tbody>
+              <tr>
+                <td><code>lung10k</code></td>
+                <td>凯尔希、浊心斯卡蒂、塑心、乌尔比安、丰川祥子、玛恩纳、蕾缪安、新约能天使、望、史尔特尔、空弦、水月、逻各斯。</td>
+              </tr>
+              <tr>
+                <td><code>kidney50k</code></td>
+                <td>缪尔赛思、令、黍、维什戴尔、丰川祥子、玛恩纳、蕾缪安、新约能天使、望、史尔特尔、空弦、水月、逻各斯。</td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="notebook">
+            <div class="code-label">Python / R</div>
+            <pre><code># subtype_map: 大类 -> 细胞小类
+# group_operator: 大类 -> 主角色
+# fine_operator: 细胞小类 -> 角色池中的角色
+fine_colors = akp.arkplatte_sub(operator_subtype_map, operator_identity)
+cluster_palette = [fine_colors[label] for label in fine_order]
+track_palette = list(coarse_colors.values()) + akp.arkplatte_cat(64, large_n="force")</code></pre>
+          </div>
+        </section>
+
+        <section id="umap">
+          <h2>UMAP</h2>
+          <p>UMAP（统一流形近似与投影）示例使用 <code>kidney50k</code> 的 <code>X_umap</code>。</p>
+          <div class="notebook">
+            <div class="code-label">数据预览</div>
+            <pre><code>adata = ov.read(str(fetch(ov, "kidney50k")))
+print(adata)
+print(adata.obs[["compartment", "cell_type", "donor_id", "sex", "tissue", "cell_state"]].head())
+print(adata.obs["compartment"].value_counts())
+print(adata.obs["cell_type"].nunique())</code></pre>
+            <pre><code>AnnData object with n_obs × n_vars = 40268 × 32088
+obs columns include: donor_id, compartment, broad_celltype, cell_type, sex, tissue, cell_state
+compartment counts: PT 27845, lymphoid 6456, non_PT 4620, myeloid 1347
+cell_type count: 29</code></pre>
+          </div>
+          <div class="notebook">
+            <div class="code-label">Python</div>
+            <pre><code>palettes = build_hierarchical_palettes(
+    adata, dataset="kidney50k",
+    coarse_col="compartment", fine_col="cell_type")
+print(palettes["fine_operator"])
+print(palettes["fine_colors"])
+
+cell_type = adata.obs["cell_type"].astype(str)
+xy = adata.obsm["X_umap"]
+colors = palettes["fine_colors"]
+ax.scatter(xy[:, 0], xy[:, 1],
+           c=[colors[x] for x in cell_type], s=1.5)</code></pre>
+            <pre><code>fine_operator: {'podocyte': '新约能天使', 'renal principal cell': '逻各斯', ...}
+fine_colors: {'podocyte': '#D01819', 'renal principal cell': '#477DC0', ...}</code></pre>
+          </div>
+          <div class="notebook">
+            <div class="code-label">R</div>
+            <pre><code>cols <- arkplatte_sub(subtype_map, group_operator)
+Seurat::DimPlot(seu, reduction = "umap",
+  group.by = "cell_type", cols = cols)</code></pre>
+          </div>
+          <div class="output">
+            <img src="figures/single_cell_umap_kidney50k_arknights.png" alt="单细胞 UMAP 图示例">
+            <div class="caption">kidney50k 按 <code>cell_type</code> 上色。</div>
+          </div>
+        </section>
+
+        <section id="plot1cell">
+          <h2>plot1cell</h2>
+          <div class="notebook">
+            <div class="code-label">Python</div>
+            <pre><code>palettes = build_hierarchical_palettes(
+    adata, dataset="kidney50k",
+    coarse_col="compartment", fine_col="cell_type")
+
+cluster_palette = palettes["cluster_palette"]
+track_palette = palettes["track_palette"]
+print("fine_operator:", palettes["fine_operator"])
+print("fine_colors:", palettes["fine_colors"])
+print("cluster_palette:", cluster_palette)
+
+ov.pl.plot1cell(
+    adata,
+    clusters="cell_type",
+    basis="X_umap",
+    tracks=["compartment", "tissue", "sex", "cell_state"],
+    cluster_palette=cluster_palette,
+    track_palette=track_palette,
+    bg_color="white")</code></pre>
+            <pre><code>kidney50k fine_operator:
+{'epithelial cell of proximal tubule': '缪尔赛思',
+ 'podocyte': '新约能天使',
+ 'renal beta-intercalated cell': '空弦',
+ 'renal intercalated cell': '水月',
+ 'renal principal cell': '逻各斯', ...}
+
+kidney50k cluster_palette:
+['#4EA9C3', '#29322E', '#C69A3A', '#271D20', '#6D6E9B',
+ '#C6B44A', '#87946E', '#C8CEBA', '#7E3A58', ...]</code></pre>
+          </div>
+          <div class="notebook">
+            <div class="code-label">R</div>
+            <pre><code>circ_data <- plot1cell::prepare_circlize_data(seu)
+plot1cell::plot_circlize(
+  circ_data,
+  col.use = palettes$cluster_colors,
+  bg.color = "white")</code></pre>
+          </div>
+          <div class="two-col">
+            <div class="output">
+              <img src="figures/omicverse_lung10k_plot1cell_arknights.png" alt="lung10k plot1cell 示例">
+              <div class="caption">lung10k：凯尔希、浊心斯卡蒂、塑心、乌尔比安为大类主角色，小类加入丰川祥子、玛恩纳、蕾缪安、新约能天使、望、史尔特尔、空弦、水月、逻各斯。</div>
+            </div>
+            <div class="output">
+              <img src="figures/omicverse_kidney50k_plot1cell_arknights.png" alt="kidney50k plot1cell 示例">
+              <div class="caption">kidney50k：缪尔赛思、令、黍、维什戴尔为大类主角色，小类加入丰川祥子、玛恩纳、蕾缪安、新约能天使、望、史尔特尔、空弦、水月、逻各斯。</div>
+            </div>
+          </div>
+        </section>
+
+        <section id="files">
+          <h2>Scripts and outputs</h2>
+          <div class="file-list">
+            <p><code>scripts/python_common_figures.py</code>：常见图。</p>
+            <p><code>scripts/python_single_cell_umap.py</code>：单细胞 UMAP。</p>
+            <p><code>scripts/python_omicverse_plot1cell_lung_kidney.py</code>：plot1cell。</p>
+            <p><code>scripts/r_common_figures.R</code>：R 语言模板。</p>
+            <p><code>common_figures_palette_log.txt</code>：常见图实际用色输出。</p>
+            <p><code>plot1cell_palette_log.txt</code>：plot1cell 数据预览与配色输出。</p>
+            <p><code>umap_palette_log.txt</code>：UMAP 数据预览与配色输出。</p>
+            <p><code>figures/</code>：PNG 与 SVG 输出。</p>
+          </div>
+        </section>
+
+        <footer>
+          <p>参考资料：<a href="https://omicverse.readthedocs.io/en/latest/Tutorials-plotting/t_plot1cell.html">OmicVerse plot1cell 教程</a>、<a href="https://github.com/Yuan1z0825/nature-skills">Yuan1z0825/nature-skills</a>、<a href="https://github.com/TheHumphreysLab/plot1cell">R 语言 plot1cell</a>。</p>
+        </footer>
+      </article>
+    </main>
+
+    <aside class="right-toc">
+      <h2>On this page</h2>
+      <a href="#palette-gallery">效果展示</a>
+      <a href="#api">函数及使用方法</a>
+      <a href="#bar">Bar chart</a>
+      <a href="#line">Line chart</a>
+      <a href="#scatter">Scatter plot</a>
+      <a href="#heatmap">Heatmap</a>
+      <a href="#violin">Violin plot</a>
+      <a href="#forest">Forest plot</a>
+      <a href="#volcano">Volcano plot</a>
+      <a href="#dotplot">Marker dot plot</a>
+      <a href="#enrichment">Enrichment</a>
+      <a href="#pca">PCA</a>
+      <a href="#mapping">Cell-type mapping</a>
+      <a href="#umap">UMAP</a>
+      <a href="#plot1cell">plot1cell</a>
+    </aside>
+  </div>
+</body>
+</html>

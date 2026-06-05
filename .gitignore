@@ -1,0 +1,12 @@
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.Rproj.user/
+*.Rproj
+Rplots.pdf
+*.tar.gz
+dist/
+build/
+*.egg-info/
+.DS_Store
+Thumbs.db
