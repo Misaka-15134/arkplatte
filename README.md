@@ -1,16 +1,15 @@
 # arkplatte
 
-明日方舟科研配色库，提供 Python 库 `arknights_palette` 和 R 包 `arknightsPalette`。配色表覆盖 417 名干员，每名干员提供 8 个核心色和 1 个分类锚点色；其中 131 名六星干员保留人工校准表。
+arkplatte 为明日方舟角色主题科研绘图提供 Python 库和 R 包，适合连续数值、正负差异、分组注释、热图、火山图、UMAP 和 plot1cell 等常见场景。
 
-本仓库只保存计算后的颜色数据，不保存原始立绘。配色方式参考 Genshinpalette 的固定颜色表思路：头像近景优先用于角色本体取色，函数读取固化后的 `palettes.csv`，再生成核心色、单向连续色、双向连续色和分类型色板。
+配色采用固定校准表，覆盖 417 名干员；头像近景优先用于角色本体取色，立绘作为备用来源。函数读取固化后的 palettes.csv，保证同一角色在不同图中保持稳定视觉语义；。
+
+色阶生成结合 Lab 感知色彩空间插值、亮度单调约束、双向色阶高亮中点、两端亮度对称和分类色最大距离选择。单细胞数据可用大类绑定角色主题，小类在同一主题内自动挑选距离更合适的颜色，从而兼顾层级关系和类别区分度。
+
 
 ## 在线教程
 
-启用 GitHub Pages 后，可直接访问：
-
 [https://misaka-15134.github.io/arkplatte/](https://misaka-15134.github.io/arkplatte/)
-
-如果链接暂时打不开，请在 GitHub 仓库页面进入 `Settings` -> `Pages`，把 `Source` 设为 `Deploy from a branch`，`Branch` 选择 `main`，目录选择 `/docs`，保存后等待 1 到 3 分钟。
 
 ## 安装
 
@@ -177,13 +176,6 @@ R/inst/extdata/palettes.csv
 - 分类型色板按 Lab 色彩距离挑选分散颜色。
 - 单细胞分层配色会根据每个大类下的小类数量扩展候选色，再选取距离更合适的颜色。
 
-## 仓库结构
-
-```text
-python/   Python 库
-R/        R 包
-docs/     HTML 教程、示例图和绘图脚本
-```
 
 ## 版权说明
 
