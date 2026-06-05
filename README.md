@@ -85,7 +85,7 @@ arkplatte_cat(8, seed = 1)
 | ![逻各斯](docs/figures/operator_palettes/07-logos.png) | ![史尔特尔](docs/figures/operator_palettes/08-surtr.png) | ![玛恩纳](docs/figures/operator_palettes/09-mlynar.png) |
 | ![凯尔希](docs/figures/operator_palettes/10-kalts.png) | ![水月](docs/figures/operator_palettes/11-mizuki.png) | ![空弦](docs/figures/operator_palettes/12-archet.png) |
 
-完整网页教程源码见 [docs/index.html](docs/index.html)。
+
 
 ## 函数及使用方法
 
