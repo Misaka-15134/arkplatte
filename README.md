@@ -31,18 +31,6 @@ install.packages("remotes")
 remotes::install_github("Misaka-15134/arkplatte", subdir = "R")
 ```
 
-本地开发安装：
-
-```bash
-git clone https://github.com/Misaka-15134/arkplatte.git
-cd arkplatte/python
-pip install -e ".[test,plot]"
-```
-
-```r
-install.packages("devtools")
-devtools::install("R")
-```
 
 ## 快速开始
 
